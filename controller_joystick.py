@@ -112,7 +112,7 @@ class LidarProcessor:
             flag = 3
         else:
             flag = 2
-	flag = 2
+        flag = 2
         return flag
 
     @staticmethod
@@ -148,10 +148,10 @@ class JoystickProcessor:
 
     def callback(self, data):
         global clamp
-	print('front_flag:', self.lidar.flag_f,
+        print('front_flag:', self.lidar.flag_f,
               'left_flag:', self.lidar.flag_l,
               'right_flag:', self.lidar.flag_r)
-	print('clamp: ' + str(clamp))
+        print('clamp: ' + str(clamp))
         self.move(data)
 
     def move(self, data):
@@ -167,15 +167,15 @@ class JoystickProcessor:
         # turn left twist.angular.z is positive, turn right twist.angular.z is negative
         # turn left data.axes[0] is positive, turn right, data.axes[0] is negative
         angular_speed = data.axes[0]
-	#angular_speed = angular_speed * -1 # for small joystick, inverted
+        #angular_speed = angular_speed * -1 # for small joystick, inverted
         if angular_speed > 0:
             twist = self.move_sideway(angular_speed, self.lidar.flag_fl, self.lidar.flag_l, twist)
         if angular_speed < 0:
             twist = self.move_sideway(angular_speed, self.lidar.flag_fr, self.lidar.flag_r, twist)
-	
-	global clamp
-	if clamp == False:
-	    self.pub.publish(twist)
+        
+        global clamp
+        if clamp == False:
+            self.pub.publish(twist)
 
     def move_forward(self, flag, multiplier, twist):
         if flag == 1:
@@ -196,7 +196,7 @@ class JoystickProcessor:
         elif (flag_frontside == 1) & (flag_side == 1):
             twist.angular.z = self.speed_fast * angular_speed
 
-	twist.angular.z = twist.angular.z * 2.5
+        twist.angular.z = twist.angular.z * 2.5
         print("z: ", twist.angular.z)
         return twist
 
@@ -209,9 +209,9 @@ def controllerCallback(data):
     global clamp
     print('triggered')
     if data.data//10 == 2:
-	clamp = False
+        clamp = False
     elif data.data//10 == 3 or data.data//10 == 4:
-	clamp = True
+        clamp = True
 
 if __name__ == '__main__':
     rospy.init_node('base_scan')
